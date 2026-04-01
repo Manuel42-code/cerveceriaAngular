@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Beer } from './Beer';
 import { CommonModule  } from "@angular/common";
 import { FormsModule } from '@angular/forms';
@@ -13,20 +13,22 @@ import { BeerData } from '../beer-data';
   templateUrl: './beer-list.html',
   styleUrl: './beer-list.scss',
 })
-export class BeerList implements OnInit{  
+export class BeerList implements OnInit{
 
-  beers: Beer[] = [];
+  beers:any[] = [];
 
 
   constructor(
     private cart: BeerCart,
-    private beerData: BeerData){
+    private beerData: BeerData,
+    private cdr: ChangeDetectorRef){
   }
 
   ngOnInit(): void {
-    this.beerData.getAll().subscribe(beers => {
-    console.log('DATA:', beers); // 👈 IMPORTANTE
-    this.beers = beers;
+    this.beerData.getAll().subscribe(data => {
+    console.log('DATA:', data);
+    this.beers = data;
+    this.cdr.detectChanges();
   });
   }
 
@@ -36,7 +38,7 @@ export class BeerList implements OnInit{
     beer.stock -= beer.quantity;
     beer.quantity = 0;
     }
-  } 
+  }
 
   maxReached(s: String){
     alert(s);

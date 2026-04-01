@@ -10,17 +10,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let beer of beers" [ngClass]="{'clearance' : beer.clearance}" >
+        @for (beer of beers; track beer.name) {
+        <tr [ngClass]="{'clearance' : beer.clearance}">
             <td><img [src]="beer.image" [alt]="beer.name"/></td>
             <td>{{beer.name}}</td>
             <td>{{beer.type}}</td>
             <td>{{beer.price}}</td>
-            <td><span class="alert alert-warning" *ngIf="beer.stock == 0">SIN STOCK</span></td>
             <td>
-                <app-input-number [(quantity)]="beer.quantity" [max]="beer.stock" *ngIf="beer.stock" (maxReached)="maxReached($event)"></app-input-number>
+                @if (beer.stock == 0) {
+                    <span class="alert alert-warning">SIN STOCK</span>
+                }
+            </td>
+            <td>
+                @if (beer.stock) {
+                    <app-input-number [(quantity)]="beer.quantity" [max]="beer.stock" (maxReached)="maxReached($event)"></app-input-number>
+                }
                 <button class="btn btn-primary" (click)="addToCart(beer)">Comprar</button>
             </td>
         </tr>
+        }
     </tbody>
 </table>
-

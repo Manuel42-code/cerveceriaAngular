@@ -12,7 +12,7 @@ export class BeerData {
   constructor(private http: HttpClient){}
 
   /**
-   * 
+   *
    * Consume la API de cervezas y devuelve un observable a la respesta
    */
   public getAll(): Observable<Beer[]>{
@@ -22,8 +22,8 @@ export class BeerData {
                     tap( (beers: Beer[])=>
                       beers.forEach(beer => beer.quantity = 0))
                   );
-    
+
   }
 
-  
+
 }
